@@ -7,8 +7,6 @@ import os
 import random
 import shutil
 import csv
-from stainNorm_Macenko import Normalizer
-from ensemble_boxes import weighted_boxes_fusion
 from tqdm import tqdm
 
 
@@ -28,9 +26,7 @@ RESULT_CSV_PATH = os.path.join(PROJECT_DIR, "fold_results.csv")
 MODEL_CFG = "./yolov12m-changed-128_16.yaml"
 MODEL_WEIGHTS = "./yolov12m.pt"
 
-DEVICE_ID = 5
-DEVICE_STR = f"cuda:{DEVICE_ID}"
-
+DEVICE_STR = "cuda" if torch.cuda.is_available() else "cpu"
 
 # ===============================
 # Create fold YAML
@@ -193,8 +189,8 @@ def stain_perturb(img):
     except Exception:
         return img
 
-    h_scale = random.uniform(0.95, 1.05)
-    e_scale = random.uniform(0.95, 1.05)
+    h_scale = random.uniform(0.94, 1.06)
+    e_scale = random.uniform(0.94, 1.06)
 
     h_shift = random.uniform(-0.03, 0.03)
     e_shift = random.uniform(-0.03, 0.03)
